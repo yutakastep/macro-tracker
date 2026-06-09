@@ -14,7 +14,7 @@ Calorie and macro tracking application.
 
 Day 1 Setup Complete
 - react frontend works on http://localhost:5173
-
+- express server working on http://localhost:5000
 
 ## Notes
 
