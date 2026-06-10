@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { pool } from "./db.js";
 
 const app = express();
 
@@ -10,6 +11,12 @@ app.get("/", (_, res) => {
   res.json({
     status: "API running",
   });
+});
+
+app.get("/db-test", async (_req, res) => {
+  const result = await pool.query("SELECT NOW()");
+
+  res.json(result.rows[0]);
 });
 
 const PORT = 5000;
