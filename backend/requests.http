@@ -1,0 +1,14 @@
+GET http://localhost:5000
+###
+GET http://localhost:5000/foods
+###
+POST http://localhost:5000/foods
+Content-Type: application/json
+
+{
+  "name": "Oatmeal",
+  "calories": 150,
+  "protein": 5,
+  "carbs": 27,
+  "fat": 3
+}
