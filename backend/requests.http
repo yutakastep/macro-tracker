@@ -21,3 +21,5 @@ Content-Type: application/json
   "servings": 2,
   "entryDate": "2026-06-15"
 }
+###
+GET http://localhost:5000/food-entries
