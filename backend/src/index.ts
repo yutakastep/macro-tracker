@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { pool } from "./db.js";
 import foodsRouter from "./routes/foods.js";
+import foodEntriesRouter from "./routes/foodEntries.js";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.get("/db-test", async (_req, res) => {
 const PORT = 5000;
 
 app.use("/foods", foodsRouter);
+
+app.use("/food-entries", foodEntriesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);

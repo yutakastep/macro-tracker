@@ -12,3 +12,12 @@ Content-Type: application/json
   "carbs": 27,
   "fat": 3
 }
+###
+POST http://localhost:5000/food-entries
+Content-Type: application/json
+
+{
+  "foodId": 1,
+  "servings": 2,
+  "entryDate": "2026-06-15"
+}

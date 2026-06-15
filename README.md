@@ -8,7 +8,7 @@ Calorie and macro tracking application.
 - TypeScript
 - Express
 - PostgreSQL
-- Prisma
+- SQL
 
 ## Status
 
