@@ -97,10 +97,15 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    if (error.code === "23505") {
-        return res.status(409).json({
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "23505"
+    ) {
+      return res.status(409).json({
         error: "Food already exists",
-        });
+      });
     }
 
     res.status(500).json({
