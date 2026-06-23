@@ -19,7 +19,9 @@ Content-Type: application/json
 {
   "foodId": 1,
   "servings": 2,
-  "entryDate": "2026-06-15"
+  "entryDate": "2026-06-23"
 }
 ###
 GET http://localhost:5000/food-entries/2
+###
+GET http://localhost:5000/dashboard/today
