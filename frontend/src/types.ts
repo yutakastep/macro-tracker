@@ -1,3 +1,5 @@
+// tell typescript what object looks like
+
 export interface DashboardData {
   calories: string;
   protein: string;
