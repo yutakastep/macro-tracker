@@ -11,3 +11,12 @@ export interface FoodEntry {
   servings: string;
   entry_date: string;
 }
+
+export interface Food {
+  id: number;
+  name: string;
+  calories: string;
+  protein: string;
+  carbs: string;
+  fat: string;
+}
