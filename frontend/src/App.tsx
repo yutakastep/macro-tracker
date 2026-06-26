@@ -59,14 +59,14 @@ function App() {
 
   //send request for food entries
   useEffect(() => {
-    fetch("https://localhost:5000/food-entries")
+    fetch("https//localhost:5000/food-entries")
       .then((res) => res.json())
       .then((data) => setEntries(data));
   }, []);
   // backend receives GET, responses come back as JSON
 
   useEffect(() => {
-    fetch("https://localhost:5000/foods")
+    fetch("https//localhost:5000/foods")
       .then((res) => res.json())
       .then((data) => setFoods(data));
   }, []);
