@@ -24,6 +24,16 @@ function App() {
 
     setDashboard(data);
   };
+
+  const loadEntries = async () => {
+    const response = await fetch(
+      "http://localhost:5000/food-entries"
+    );
+
+    const data = await response.json();
+
+    setEntries(data);
+  };
   
   const [entries, setEntries] =
     useState<FoodEntry[]>([]);
@@ -62,9 +72,7 @@ function App() {
 
   //send request for food entries
   useEffect(() => {
-    fetch("http://localhost:5000/food-entries")
-      .then((res) => res.json())
-      .then((data) => setEntries(data));
+    loadEntries();
   }, []);
   // backend receives GET, responses come back as JSON
 
@@ -144,13 +152,8 @@ function App() {
       return;
     }
 
-    const newEntry = 
-      await response.json();
-
-    setEntries([
-      newEntry,
-      ...entries,
-    ]);
+    await loadEntries();
+    await loadDashboard();
 
     setServings("");
     setSelectedFoodId("");
