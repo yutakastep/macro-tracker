@@ -171,8 +171,7 @@ function App() {
       
       {entries.map((entry) => (
         <div key={entry.id}>
-          <p>{entry.name}</p>
-          <p>{entry.servings}</p>
+          {entry.name} : {entry.servings} servings
         </div>
       ))}
 
