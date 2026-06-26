@@ -10,6 +10,18 @@ function App() {
   const [dashboard, setDashboard] =
     useState<DashboardData | null>(null);
   
+  const loadDashboard = async () => {
+    const response =
+      await fetch(
+        "http://localhost:5000/dashboard/today"
+      );
+
+    const data =
+      await response.json();
+
+    setDashboard(data);
+  };
+  
   const [entries, setEntries] =
     useState<FoodEntry[]>([]);
   
@@ -41,9 +53,7 @@ function App() {
 
   // send request for dashboard
   useEffect(() => {
-    fetch("http://localhost:5000/dashboard/today")
-      .then((res) => res.json())
-      .then((data) => setDashboard(data));
+    loadDashboard();
   }, []);
   // backend receives GET, responses come back as JSON
 
