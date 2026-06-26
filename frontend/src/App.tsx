@@ -31,9 +31,11 @@ function App() {
   const [fat, setFat] = 
     useState("");
 
+  // save what food was selected
   const [selectedFoodId, setSelectedFoodId] =
     useState("");
   
+  // save serving count
   const [servings, setServings] = 
     useState("");
 
@@ -198,6 +200,15 @@ function App() {
           </option>
         ))}
       </select>
+
+      <input
+        type="number"
+        placeholder="Servings"
+        value={servings}
+        onChange={(e) =>
+          setServings(e.target.value)
+        }
+      />
 
     </div>
   );
