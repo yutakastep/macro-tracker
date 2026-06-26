@@ -102,6 +102,47 @@ function App() {
     setFat("");
   };
 
+  const handleAddEntry = async () => {
+    const today = 
+      new Date()  // creates 2026-06-26T14:20:31.000Z
+        .toISOString()
+        .split("T")[0];
+      
+    const response = await fetch(
+      "http://localhost:5000/food-entries",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          foodId: Number(selectedFoodId),
+          servings: Number(servings),
+          entryDate: today,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      alert("Failed to add entry")
+      return;
+    }
+
+    const newEntry = 
+      await response.json();
+
+    setEntries([
+      newEntry,
+      ...entries,
+    ]);
+
+    setServings("");
+    setSelectedFoodId("");
+  }
+
 
   return (
     <div>
@@ -209,6 +250,8 @@ function App() {
           setServings(e.target.value)
         }
       />
+
+      <button onClick={handleAddEntry}>Add Entry</button>
 
     </div>
   );
