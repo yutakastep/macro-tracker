@@ -1,3 +1,6 @@
+import Dashboard from "./components/Dashboard";
+import FoodList from "./components/FoodList";
+import EntryList from "./components/EntryList";
 import { useEffect, useState } from "react";
 import type { 
   DashboardData, 
@@ -159,29 +162,17 @@ function App() {
       <h1>Macro Tracker</h1>
 
       {dashboard && (
-        <>
-          <p>Calories: {dashboard.calories}</p>
-          <p>Protein: {dashboard.protein}</p>
-          <p>Carbs: {dashboard.carbs}</p>
-          <p>Fat: {dashboard.fat}</p>
-        </>
+        <Dashboard
+          calories={dashboard.calories}
+          protein={dashboard.protein}
+          carbs={dashboard.carbs}
+          fat={dashboard.fat}
+        />
       )}
 
-      <h2>Today's Entries</h2>
-      
-      {entries.map((entry) => (
-        <div key={entry.id}>
-          {entry.name} : {entry.servings} servings
-        </div>
-      ))}
+      <EntryList entries={entries} />
 
-      <h2>Foods</h2>
-
-      {foods.map((food) => (
-        <div key={food.id}>
-          {food.name}
-        </div>
-      ))}
+      <FoodList foods={foods} />
 
       <h2>Add Food</h2>
 
