@@ -31,6 +31,12 @@ function App() {
   const [fat, setFat] = 
     useState("");
 
+  const [selectedFoodId, setSelectedFoodId] =
+    useState("");
+  
+  const [servings, setServings] = 
+    useState("");
+
   // send request for dashboard
   useEffect(() => {
     fetch("http://localhost:5000/dashboard/today")
@@ -171,6 +177,27 @@ function App() {
         Add Food
       </button>
       
+      <h2>Log Food</h2>
+
+      <select
+        value={selectedFoodId}
+        onChange={(e) => 
+          setSelectedFoodId(e.target.value)
+        }
+      >
+        <option value="">
+          Select a food
+        </option>
+
+        {foods.map((food) => (
+          <option
+            key={food.id}
+            value={food.id}
+          >
+            {food.name}
+          </option>
+        ))}
+      </select>
 
     </div>
   );
