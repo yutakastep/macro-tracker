@@ -2,10 +2,12 @@ import type { FoodEntry } from "../types";
 
 type EntryListProps = {
   entries: FoodEntry[];
+  onDelete: (id: number) => void;
 };
 
 export default function EntryList({
   entries,
+  onDelete,
 }: EntryListProps) {
   return (
     <>
@@ -13,7 +15,18 @@ export default function EntryList({
 
       {entries.map((entry) => (
         <div key={entry.id}>
-          {entry.name} : {entry.servings} servings
+          {entry.name}
+          {" - "}
+          {entry.servings}
+          {" servings "}
+
+          <button
+            onClick={() =>
+              onDelete(entry.id)
+            }
+          >
+            Delete
+          </button>
         </div>
       ))}
     </>

@@ -34,6 +34,26 @@ function App() {
 
     setEntries(data);
   };
+
+  const handleDeleteEntry =
+  async (id: number) => {
+
+    const response =
+      await fetch(
+        `http://localhost:5000/food-entries/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+    if (!response.ok) {
+      alert("Failed to delete entry");
+      return;
+    }
+
+    await loadEntries();
+    await loadDashboard();
+  };
   
   const [entries, setEntries] =
     useState<FoodEntry[]>([]);
