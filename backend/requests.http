@@ -27,3 +27,10 @@ GET http://localhost:5000/food-entries/2
 GET http://localhost:5000/dashboard/today
 ###
 DELETE http://localhost:5000/food-entries/2
+###
+PUT http://localhost:5000/food-entries/15
+Content-Type: application/json
+
+{
+  "servings": 4
+}

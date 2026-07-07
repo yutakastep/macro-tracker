@@ -193,7 +193,10 @@ function App() {
         />
       )}
 
-      <EntryList entries={entries} />
+      <EntryList
+        entries={entries}
+        onDelete={handleDeleteEntry}
+      />
 
       <FoodList foods={foods} />
 
