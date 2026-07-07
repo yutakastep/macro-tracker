@@ -25,3 +25,5 @@ Content-Type: application/json
 GET http://localhost:5000/food-entries/2
 ###
 GET http://localhost:5000/dashboard/today
+###
+DELETE http://localhost:5000/food-entries/2

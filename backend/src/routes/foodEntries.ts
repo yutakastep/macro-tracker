@@ -124,4 +124,43 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({
+        error: "Invalid entry ID",
+      });
+    }
+
+    const result = await pool.query(
+      `
+      DELETE FROM food_entries
+      WHERE id = $1
+      AND user_id = $2
+      RETURNING *
+      `,
+      [id, 1]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        error: "Entry not found",
+      });
+    }
+
+    res.json({
+      message: "Entry deleted",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: "Failed to delete entry",
+    });
+  }
+});
+
 export default router;
