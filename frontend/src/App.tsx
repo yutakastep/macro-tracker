@@ -54,6 +54,38 @@ function App() {
     await loadEntries();
     await loadDashboard();
   };
+
+  const handleUpdateEntry =
+  async (
+    id: number,
+    servings: number
+  ) => {
+
+    const response =
+      await fetch(
+        `http://localhost:5000/food-entries/${id}`,
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            servings,
+          }),
+        }
+      );
+
+    if (!response.ok) {
+      alert("Failed to update");
+      return;
+    }
+
+    await loadEntries();
+    await loadDashboard();
+  };
   
   const [entries, setEntries] =
     useState<FoodEntry[]>([]);
@@ -196,6 +228,7 @@ function App() {
       <EntryList
         entries={entries}
         onDelete={handleDeleteEntry}
+        onUpdate={handleUpdateEntry}
       />
 
       <FoodList foods={foods} />
