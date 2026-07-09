@@ -171,5 +171,35 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    const result = await pool.query(
+      `
+      DELETE FROM foods
+      WHERE id = $1
+      RETURNING *
+      `,
+      [id]
+    );
+
+    res.json(result.rows[0]);
+
+  } catch (error: any) {
+    console.error(error);
+
+    if (error.code === "23503") {
+      return res.status(400).json({
+        error:
+          "Cannot delete food because it is used by existing entries",
+      });
+    }
+
+    res.status(500).json({
+      error: "Failed to delete food",
+    });
+  }
+});
 
 export default router;

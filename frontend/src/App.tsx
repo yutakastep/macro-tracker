@@ -16,6 +16,14 @@ function App() {
 
   const [goals, setGoals] =
     useState<GoalData | null>(null);  
+
+  const [goalCaloriesInput,
+    setGoalCaloriesInput] =
+    useState("");
+
+  const [goalProteinInput,
+    setGoalProteinInput] =
+    useState("");
   
   const loadDashboard = async () => {
     const response =
@@ -48,13 +56,23 @@ function App() {
     const data =
       await response.json();
 
-    setGoals({
+    const goalData = {
       calorie_goal:
         Number(data.calorie_goal),
 
       protein_goal:
         Number(data.protein_goal),
-    });
+    };
+
+    setGoals(goalData);
+
+    setGoalCaloriesInput(
+      String(goalData.calorie_goal)
+    );
+
+    setGoalProteinInput(
+      String(goalData.protein_goal)
+    );
   };
 
   const handleDeleteEntry =
@@ -107,6 +125,36 @@ function App() {
 
     await loadEntries();
     await loadDashboard();
+  };
+
+  const handleSaveGoals = async () => {
+    const response =
+      await fetch(
+        "http://localhost:5000/goals",
+        {
+          method: "PUT",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            calorie_goal:
+              Number(goalCaloriesInput),
+
+            protein_goal:
+              Number(goalProteinInput),
+          }),
+        }
+      );
+
+    if (!response.ok) {
+      alert("Failed to save goals");
+      return;
+    }
+
+    await loadGoals();
   };
   
   const [entries, setEntries] =
@@ -355,6 +403,36 @@ function App() {
       />
 
       <button onClick={handleAddEntry}>Add Entry</button>
+
+      <h2>Goal Settings</h2>
+
+      <input
+        type="number"
+        placeholder="Calorie Goal"
+        value={goalCaloriesInput}
+        onChange={(e) =>
+          setGoalCaloriesInput(
+            e.target.value
+          )
+        }
+      />
+
+      <input
+        type="number"
+        placeholder="Protein Goal"
+        value={goalProteinInput}
+        onChange={(e) =>
+          setGoalProteinInput(
+            e.target.value
+          )
+        }
+      />
+
+      <button
+        onClick={handleSaveGoals}
+      >
+        Save Goals
+      </button>
 
     </div>
   );
