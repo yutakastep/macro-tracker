@@ -36,3 +36,14 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:5000/goals
+###
+PUT http://localhost:5000/foods/1
+Content-Type: application/json
+
+{
+  "name": "Chicken Breast",
+  "calories": 170,
+  "protein": 32,
+  "carbs": 0,
+  "fat": 4
+}

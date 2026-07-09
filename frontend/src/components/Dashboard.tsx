@@ -3,6 +3,9 @@ type DashboardProps = {
   protein: string;
   carbs: string;
   fat: string;
+
+  goalCalories: number;
+  goalProtein: number;
 };
 
 export default function Dashboard({
@@ -10,11 +13,26 @@ export default function Dashboard({
   protein,
   carbs,
   fat,
+  goalCalories,
+  goalProtein,
 }: DashboardProps) {
   return (
     <>
-      <p>Calories: {calories}</p>
-      <p>Protein: {protein}</p>
+      <p>
+        Calories:
+        {" "}
+        {calories}
+        {" / "}
+        {goalCalories}
+      </p>
+
+      <p>
+        Protein:
+        {" "}
+        {protein}
+        {" / "}
+        {goalProtein}
+      </p>
       <p>Carbs: {carbs}</p>
       <p>Fat: {fat}</p>
     </>

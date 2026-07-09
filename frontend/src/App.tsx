@@ -252,12 +252,20 @@ function App() {
         </>
       )}
 
-      {dashboard && (
+      {dashboard && goals && (
         <Dashboard
           calories={dashboard.calories}
           protein={dashboard.protein}
           carbs={dashboard.carbs}
           fat={dashboard.fat}
+
+          goalCalories={
+            goals.calorie_goal
+          }
+
+          goalProtein={
+            goals.protein_goal
+          }
         />
       )}
 

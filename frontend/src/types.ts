@@ -22,3 +22,8 @@ export interface Food {
   carbs: string;
   fat: string;
 }
+
+export interface GoalData {
+  calorie_goal: number;
+  protein_goal: number;
+}
