@@ -6,12 +6,16 @@ import type {
   DashboardData, 
   FoodEntry, 
   Food,
+  GoalData,
 } from "./types";
 
 // start react, then:
 function App() {
   const [dashboard, setDashboard] =
     useState<DashboardData | null>(null);
+
+  const [goals, setGoals] =
+    useState<GoalData | null>(null);  
   
   const loadDashboard = async () => {
     const response =
@@ -33,6 +37,24 @@ function App() {
     const data = await response.json();
 
     setEntries(data);
+  };
+
+  const loadGoals = async () => {
+    const response =
+      await fetch(
+        "http://localhost:5000/goals"
+      );
+
+    const data =
+      await response.json();
+
+    setGoals({
+      calorie_goal:
+        Number(data.calorie_goal),
+
+      protein_goal:
+        Number(data.protein_goal),
+    });
   };
 
   const handleDeleteEntry =
@@ -119,6 +141,7 @@ function App() {
   // send request for dashboard
   useEffect(() => {
     loadDashboard();
+    loadGoals();
   }, []);
   // backend receives GET, responses come back as JSON
 
@@ -215,6 +238,19 @@ function App() {
   return (
     <div>
       <h1>Macro Tracker</h1>
+      {goals && (
+        <>
+          <p>
+            Goal Calories: 
+            {goals.calorie_goal}
+          </p>
+
+          <p>
+            Goal Protein: 
+            {goals.protein_goal}
+          </p>
+        </>
+      )}
 
       {dashboard && (
         <Dashboard

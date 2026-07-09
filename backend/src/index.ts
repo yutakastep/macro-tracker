@@ -4,6 +4,7 @@ import { pool } from "./db.js";
 import foodsRouter from "./routes/foods.js";
 import foodEntriesRouter from "./routes/foodEntries.js";
 import dashboardRouter from "./routes/dashboard.js";
+import goalsRouter from "./routes/goals.js";
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use("/foods", foodsRouter);
 app.use("/food-entries", foodEntriesRouter);
 
 app.use("/dashboard", dashboardRouter);
+
+app.use("/goals", goalsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);

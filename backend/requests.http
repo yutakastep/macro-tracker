@@ -34,3 +34,5 @@ Content-Type: application/json
 {
   "servings": 4
 }
+###
+GET http://localhost:5000/goals
