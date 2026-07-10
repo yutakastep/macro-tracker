@@ -11,36 +11,28 @@ import type {
 
 // start react, then:
 function App() {
-  const [dashboard, setDashboard] =
-    useState<DashboardData | null>(null);
+  const [dashboard, setDashboard] = useState<DashboardData | null>(null);
 
-  const [goals, setGoals] =
-    useState<GoalData | null>(null);  
+  const [goals, setGoals] = useState<GoalData | null>(null);  
 
-  const [goalCaloriesInput,
-    setGoalCaloriesInput] =
-    useState("");
+  const [goalCaloriesInput, setGoalCaloriesInput] = useState("");
 
-  const [goalProteinInput,
-    setGoalProteinInput] =
-    useState("");
+  const [goalProteinInput, setGoalProteinInput] = useState("");
   
   const loadDashboard = async () => {
-    const response =
-      await fetch(
-        "http://localhost:5000/dashboard/today"
-      );
-
-    const data =
-      await response.json();
-
+    const response = await fetch("http://localhost:5000/dashboard/today");
+    const data = await response.json();
     setDashboard(data);
   };
 
+  const loadFoods = async () => {
+    const response = await fetch("http://localhost:5000/foods");
+    const data = await response.json();
+    setFoods(data);
+  };
+
   const loadEntries = async () => {
-    const response = await fetch(
-      "http://localhost:5000/food-entries"
-    );
+    const response = await fetch("http://localhost:5000/food-entries");
 
     const data = await response.json();
 
@@ -48,13 +40,9 @@ function App() {
   };
 
   const loadGoals = async () => {
-    const response =
-      await fetch(
-        "http://localhost:5000/goals"
-      );
+    const response = await fetch("http://localhost:5000/goals");
 
-    const data =
-      await response.json();
+    const data =await response.json();
 
     const goalData = {
       calorie_goal:
@@ -157,34 +145,25 @@ function App() {
     await loadGoals();
   };
   
-  const [entries, setEntries] =
-    useState<FoodEntry[]>([]);
+  const [entries, setEntries] = useState<FoodEntry[]>([]);
   
-  const [foods, setFoods] =
-    useState<Food[]>([]);
+  const [foods, setFoods] = useState<Food[]>([]);
 
-  const [name, setName] = 
-    useState("");
+  const [name, setName] =  useState("");
 
-  const [calories, setCalories] = 
-    useState("");
+  const [calories, setCalories] = useState("");
 
-  const [protein, setProtein] = 
-    useState("");
+  const [protein, setProtein] = useState("");
 
-  const [carbs, setCarbs] = 
-    useState("");
+  const [carbs, setCarbs] = useState("");
 
-  const [fat, setFat] = 
-    useState("");
+  const [fat, setFat] = useState("");
 
   // save what food was selected
-  const [selectedFoodId, setSelectedFoodId] =
-    useState("");
+  const [selectedFoodId, setSelectedFoodId] = useState("");
   
   // save serving count
-  const [servings, setServings] = 
-    useState("");
+  const [servings, setServings] = useState("");
 
   // send request for dashboard
   useEffect(() => {
@@ -200,9 +179,7 @@ function App() {
   // backend receives GET, responses come back as JSON
 
   useEffect(() => {
-    fetch("http://localhost:5000/foods")
-      .then((res) => res.json())
-      .then((data) => setFoods(data));
+    loadFoods();
   }, []);
 
   const handleAddFood = async () => {
@@ -231,8 +208,7 @@ function App() {
       return;
     }
 
-    const newFood =
-      await response.json();
+    const newFood = await response.json();
     
     setFoods([
       ...foods,
@@ -245,6 +221,65 @@ function App() {
     setCarbs("");
     setFat("");
   };
+
+  const handleDeleteFood =
+    async (id: number) => {
+
+      const response =
+        await fetch(
+          `http://localhost:5000/foods/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+      if (!response.ok) {
+        const error =
+          await response.json();
+
+        alert(error.error);
+        return;
+      }
+
+      await loadFoods();
+    };
+
+  const handleUpdateFood =
+    async (
+      id: number,
+      updatedFood: Food
+    ) => {
+
+      const response =
+        await fetch(
+          `http://localhost:5000/foods/${id}`,
+          {
+            method: "PUT",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              name:updatedFood.name,
+              calories:updatedFood.calories,
+              protein:updatedFood.protein,
+              carbs:updatedFood.carbs,
+              fat:updatedFood.fat,
+            }),
+          }
+        );
+
+      if (!response.ok) {
+        alert(
+          "Failed to update food"
+        );
+        return;
+      }
+
+      await loadFoods();
+    };
 
   const handleAddEntry = async () => {
     const today = 
@@ -289,13 +324,11 @@ function App() {
       {goals && (
         <>
           <p>
-            Goal Calories: 
-            {goals.calorie_goal}
+            Goal Calories: {goals.calorie_goal}
           </p>
 
           <p>
-            Goal Protein: 
-            {goals.protein_goal}
+            Goal Protein: {goals.protein_goal}
           </p>
         </>
       )}
@@ -307,13 +340,9 @@ function App() {
           carbs={dashboard.carbs}
           fat={dashboard.fat}
 
-          goalCalories={
-            goals.calorie_goal
-          }
+          goalCalories={goals.calorie_goal}
 
-          goalProtein={
-            goals.protein_goal
-          }
+          goalProtein={goals.protein_goal}
         />
       )}
 
@@ -323,48 +352,42 @@ function App() {
         onUpdate={handleUpdateEntry}
       />
 
-      <FoodList foods={foods} />
+      <FoodList
+        foods={foods}
+        onDelete={handleDeleteFood}
+        onUpdate={handleUpdateFood}
+      />
 
       <h2>Add Food</h2>
 
       <input
         placeholder="Name"
         value={name}
-        onChange={(e) =>
-          setName(e.target.value)
-        }
+        onChange={(e) => setName(e.target.value)}
       />
 
       <input
         placeholder="Calories"
         value={calories}
-        onChange={(e) =>
-          setCalories(e.target.value)
-        }
+        onChange={(e) => setCalories(e.target.value)}
       />
 
       <input
         placeholder="Protein"
         value={protein}
-        onChange={(e) =>
-          setProtein(e.target.value)
-        }
+        onChange={(e) => setProtein(e.target.value)}
       />
 
       <input
         placeholder="Carbs"
         value={carbs}
-        onChange={(e) =>
-          setCarbs(e.target.value)
-        }
+        onChange={(e) => setCarbs(e.target.value)}
       />
 
       <input
         placeholder="Fat"
         value={fat}
-        onChange={(e) =>
-          setFat(e.target.value)
-        }
+        onChange={(e) => setFat(e.target.value)}
       />
 
       <button onClick={handleAddFood}>
@@ -375,9 +398,7 @@ function App() {
 
       <select
         value={selectedFoodId}
-        onChange={(e) => 
-          setSelectedFoodId(e.target.value)
-        }
+        onChange={(e) =>  setSelectedFoodId(e.target.value)}
       >
         <option value="">
           Select a food
@@ -428,9 +449,7 @@ function App() {
         }
       />
 
-      <button
-        onClick={handleSaveGoals}
-      >
+      <button onClick={handleSaveGoals}>
         Save Goals
       </button>
 
